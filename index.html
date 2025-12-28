@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>BeastSpark | Play</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@500&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="loading-screen">
+    <div class="loading-center">
+      <h1 class="title-load">BeastSpark</h1>
+
+      <div class="loader">
+        <div class="loader-1 bar"></div>
+        <div class="loader-2 bar"></div>
+      </div>
+    </div>
+  </div>
+
+  <header>
+    <div class="title-container">
+      <div class="logo-text-wrapper">
+        <h1 class="site-title reveal-anim">BeastSpark</h1>
+        <img src="logos/santa-hat.png" alt="Santa Hat" class="santa-hat-text">
+      </div>
+
+    </div>
+    <p class="slogan">
+      <span class="word delay-1">Грай.</span>
+      <span class="word delay-2">Заробляй.</span>
+      <span class="word delay-3">Отримуй Robux.</span>
+    </p>
+
+    <img src="logos/MrBeast-Logo.png" alt="MrBeast Logo" class="Beast-logo">
+    <img src="logos/Robux-Icon.png" alt="Robux" class="Robux-Icon">
+  </header>
+
+
+  <main>
+<section class="nikname">
+  <img id="avatar" src="avatars/avatar.png" alt="avatar">
+
+  <div class="inf-wrapper">
+    <div id="output"></div>
+    <div class="valuta-wrapper">
+      <span id="balance">0</span>
+      <img src="logos/BeastShine.png" alt="BeastShine" class="valuta">
+    </div>
+  </div>
+</section>
+
+  <!-- <section class="soc-links">
+    <div class="socials-container">
+      <a data-social="Tumblr" href="#" style="--accent-color: #36465D;"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M14.563 24c-5.093 0-7.031-3.756-7.031-6.411V9.747H5.116V6.648c3.63-1.313 4.512-4.596 4.71-6.469C9.84.051 9.941 0 9.999 0h3.517v6.114h4.801v3.633h-4.82v7.47c.016 1.001.375 2.371 2.207 2.371h.09c.631-.02 1.486-.205 1.936-.419l1.156 3.425c-.436.636-2.4 1.374-4.156 1.404h-.178l.011.002z"/></svg></a>
+
+      <a data-social="Discord" href="#" style="--accent-color: #7289DA;"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20.317 4.3698a19.7913 19.7913 0 00-4.8851-1.5152.0741.0741 0 00-.0785.0371c-.211.3753-.4447.8648-.6083 1.2495-1.8447-.2762-3.68-.2762-5.4868 0-.1636-.3933-.4058-.8742-.6177-1.2495a.077.077 0 00-.0785-.037 19.7363 19.7363 0 00-4.8852 1.515.0699.0699 0 00-.0321.0277C.5334 9.0458-.319 13.5799.0992 18.0578a.0824.0824 0 00.0312.0561c2.0528 1.5076 4.0413 2.4228 5.9929 3.0294a.0777.0777 0 00.0842-.0276c.4616-.6304.8731-1.2952 1.226-1.9942a.076.076 0 00-.0416-.1057c-.6528-.2476-1.2743-.5495-1.8722-.8923a.077.077 0 01-.0076-.1277c.1258-.0943.2517-.1923.3718-.2914a.0743.0743 0 01.0776-.0105c3.9278 1.7933 8.18 1.7933 12.0614 0a.0739.0739 0 01.0785.0095c.1202.099.246.1981.3728.2924a.077.077 0 01-.0066.1276 12.2986 12.2986 0 01-1.873.8914.0766.0766 0 00-.0407.1067c.3604.698.7719 1.3628 1.225 1.9932a.076.076 0 00.0842.0286c1.961-.6067 3.9495-1.5219 6.0023-3.0294a.077.077 0 00.0313-.0552c.5004-5.177-.8382-9.6739-3.5485-13.6604a.061.061 0 00-.0312-.0286zM8.02 15.3312c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9555-2.4189 2.157-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.9555 2.4189-2.1569 2.4189zm7.9748 0c-1.1825 0-2.1569-1.0857-2.1569-2.419 0-1.3332.9554-2.4189 2.1569-2.4189 1.2108 0 2.1757 1.0952 2.1568 2.419 0 1.3332-.946 2.4189-2.1568 2.4189Z"/></svg></a>
+      
+      <a data-social="Telegram" href="#" style="--accent-color: #24A1DE;"><svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg></a>
+    </div>
+  </section> -->
+    <!-- Ігри -->
+    <section class="games">
+      <h2>🕹️ Ігри</h2>
+      <div class="game-wrapper">
+        <div class="game-card" id="openClicker">
+          <h3>👆</h3>
+          <h3>Клікер</h3>
+        </div>
+
+        <div class="game-card" id="openMemory">
+          <h3>🧠</h3>
+          <h3>Меморіум</h3>
+        </div>
+
+        <div class="game-card" id="openCasino">
+          <h3>🎰</h3>
+          <h3>Казино</h3>
+        </div>
+      </div>
+    </section>
+
+    <!-- Казино (модалка) -->
+    <div class="casino-modal" id="casinoModal">
+      <div class="casino-content">
+        <h2>🎰 Казино</h2>
+        <div class="slot-machine">
+          <div class="slot" id="slot1">🍒</div>
+          <div class="slot" id="slot2">🍋</div>
+          <div class="slot" id="slot3">🍇</div>
+        </div>
+        <button id="spinBtn">Крутити</button>
+        <p id="resultText"></p>
+        <button id="closeCasino">Закрити</button>
+      </div>
+    </div>
+
+
+    <!-- Модалка з правилами (Клікер) -->
+    <section class="rules-modal" id="clicker_rules">
+      <div class="modal mdl-rules">
+        <h2>📜 Правила</h2>
+        <p>Натискай на предмети, щоб заробляти очки. 
+          Час обмежений 17 секундами!</p>
+        <button id="startClicker">Почати гру</button>
+        <button class="close-rules">Закрити</button>
+      </div>
+    </section>
+
+    <!-- Модалка з клікером -->
+    <div id="clicker_container" class="clicker-modal">
+      <div class="modal mdl-clicker">
+        <div class="timer" id="timer">⏳ 30</div>
+        <h2>Кліки: <span id="score">0</span></h2>
+        <div class="game-area" id="gameArea"></div>
+        <button class="close-clicker">Закрити</button>
+      </div>
+    </div>
+
+    <!-- Модалка з правилами (Меморіум) -->
+    <section class="rules-modal" id="memory_rules">
+      <div class="modal mdl-rules">
+        <h2>📜 Правила</h2>
+        <p>Знайди однакові пари карток. Відкривай по дві картки за раз, щоб запам’ятати їх розташування.</p>
+        <button id="startMemory">Почати гру</button>
+        <button class="close-rules">Закрити</button>
+      </div>
+    </section>
+
+    <!-- Модалка з меморіумом -->
+    <section class="memory-modal" id="memory_container">
+      <div class="modal mdl-memory">
+        <div class="timer" id="memory_timer">⏳ 60</div>
+        <h2>Збіги: <span id="matches">0</span></h2>
+        <div class="game-area memory-area" id="memoryArea"></div>
+        <button class="close-memory">Закрити</button>
+      </div>
+    </section>
+
+
+
+    <div class="christmas-divider">
+      <div class="garland">
+        <span class="light blue large"></span>
+        <span class="light pink medium"></span>
+        <span class="light purple large"></span>
+        <span class="light blue medium"></span>
+        <span class="light pink small"></span>
+        <span class="light purple large"></span>
+      </div>
+    </div>
+    
+
+
+  <section class="shop">
+    <h2>🛒 Магазин</h2>
+
+    <div class="cards">
+      <div class="gift-card">
+        <h1>400 <img src="logos/Robux-Icon.png" alt="Robux" width="20px"></h1>
+        <h3>Ціна: 35000 <img src="logos/BeastShine.png" alt="BeastShine" width="20px"></h3>
+        <button>Купити</button>
+      </div>
+
+      <div class="gift-card special">
+        <h1>400 <img src="logos/Robux-Icon.png" alt="Robux" width="20px"></h1>
+        <h3>Ціна: 1 <img src="logos/BeastShine.png" alt="BeastShine" width="20px"></h3>
+        <button>Купити</button>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- Кнопка відкриття -->
+  <section class="code">
+    <button class="CODES" id="CODES">Коди:</button>
+  </section>
+
+  <!-- Модалка -->
+  <section class="code-modal" id="code_container">
+    <div class="modal mdl-code">
+      <button class="close-code">×</button>
+      <h2>Введіть код</h2>
+
+      <label class="register-sec">
+        <input type="text" required />
+        <span class="placeholder">Ваш код</span>
+      </label>
+
+      <div class="wrapper-reg">
+        <button id="activate" class="ready-code">Активувати</button>
+      </div>
+    </div>
+  </section>
+
+  </main>
+   
+  <script src="login + nikname.js"></script>
+  <script src="code.js"></script>
+  <script src="shop.js"></script>
+  <script src="preloader.js"></script>
+  <script src="clicker.js"></script>
+  <script src="currency.js"></script>
+  <script src="memory.js"></script>
+  <script src="casino.js"></script>
+  <script src="quests.js"></script>
+  <script src="avatars.js"></script>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>  
+
+</body>
+</html>
+
+

@@ -1,0 +1,1532 @@
+/* === GLOBAL === */
+* {
+  font-family: 'Rubik', sans-serif;
+}
+
+a {
+  text-decoration: none;
+  color: white;
+  background-color: #ff007f;
+  padding: 1px;
+}
+
+body {
+  overflow-x: hidden;
+  margin: 0;
+  font-family: 'Rubik', sans-serif;
+  background-color: #0f0f0f;
+  color: white;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+h2 {
+  margin: 0;
+}
+
+::-webkit-scrollbar {
+  display: none; /* Chrome/Safari/Opera */
+}
+
+#scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 6px;
+  width: 0%;
+  background: repeating-linear-gradient(
+    45deg,
+    #00cfff,
+    #00cfff 10px,
+    #dd01bc 10px,
+    #dd01bc 20px
+  );
+  background-size: 40px 100%;
+  animation: stripes 1s linear infinite;
+  z-index: 9999;
+  transition: width 0.15s ease-out, opacity 0.3s ease;
+  opacity: 0;
+}
+
+#scroll-progress-bar.active {
+  opacity: 1;
+}
+
+@keyframes stripes {
+  0% { background-position: 0 0; }
+  100% { background-position: 40px 0; }
+}
+
+
+
+
+/* === LOADER/COUNTER === */
+.title-load {
+  font-size: 3em;
+  font-family: 'Rubik', sans-serif;
+  margin-bottom: 150px;
+  white-space: nowrap;
+}
+
+.loading-screen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, #dd01bc, #00cfff);
+  color: #fff;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.counter {
+  cursor: pointer;
+  position: fixed;
+  left: 50px;
+  bottom: 50px;
+  display: flex;
+  gap: 10px;
+  height: 90px;
+  padding: 5.5px;
+  font-size: 100px;
+  line-height: 102px;
+  clip-path: polygon(0 0, 100% 0, 100% 100px, 0 100px);
+  font-weight: 400;
+  background-color: #47beff;
+  border-radius: 15px;
+  scale: 0.5;
+}
+.counter-1, .counter-2, .counter-3 { position: relative; }
+.num1offset1 { position: relative; right: -25px; }
+.num1offset2 { position: relative; right: -10px; }
+.loader {
+  cursor: pointer;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 300px;
+  height: 50px;
+  transform: translate(-50%, -50%);
+  display: flex;
+  background: rgba(255, 255, 255, 0.3);
+}
+.loader-1 { position: relative; background: #fff; width: 200px; }
+.loader-2 { position: relative; background: #fff; width: 100px; }
+.bar { height: 50px; }
+
+/* === HEADER === */
+header {
+  background: linear-gradient(90deg, #dd01bc, #00cfff);
+  border-bottom: #790067 4px solid;
+  padding: 30px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.5s ease;
+}
+header .title-container { display: inline-block; }
+
+header .site-title {
+  font-size: 3em;
+  margin: 0;
+  border-right: 5px solid;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  transition: transform 0.5s ease;
+}
+
+.site-title::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background: url('snow-overlay.png') repeat-x;
+  background-size: contain;
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* === TEXT LOGO WITH SANTA HAT === */
+.logo-text-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.logo-text-wrapper .site-title {
+  font-size: 3em;
+  margin: 0;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.santa-hat-text {
+  position: absolute;
+  top: -15px;
+  left: -16px;
+  width: 50px;
+  transform: rotate(-20deg) translateY(-100px); /* старт поза екраном */
+  opacity: 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Анімація падіння */
+@keyframes hat-drop {
+  0%   { transform: rotate(-20deg) translateY(-100px); opacity: 0; }
+  60%  { transform: rotate(-18deg) translateY(5px); opacity: 1; }
+  80%  { transform: rotate(-22deg) translateY(-2px); }
+  100% { transform: rotate(-20deg) translateY(0); opacity: 1; }
+}
+
+/* Після появи запускаємо хитання */
+body.loaded .santa-hat-text {
+  animation: hat-drop 0.8s ease-out forwards;
+  animation-delay: 2.2s;
+}
+
+
+
+
+.slogan {
+  font-size: 1.2em;
+  margin: 10px 0;
+  position: relative;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.word {
+  opacity: 0;
+  transform: translateY(20px);
+  display: inline-block;
+  animation: fadeInUp 0.6s forwards;
+  animation-play-state: paused;
+  animation-delay: 0s; /* Скидуємо початкову затримку */
+}
+
+/* Лише після додавання класу loaded — активуються затримки й анімація */
+body.loaded .word {
+  animation-play-state: running;
+}
+
+body.loaded .delay-1 { animation-delay: 0.2s; }
+body.loaded .delay-2 { animation-delay: 0.8s; }
+body.loaded .delay-3 { animation-delay: 1.4s; }
+body.loaded .delay-4 { animation-delay: 2s; }
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+
+header.hidden { transform: translateY(-100%); }
+.Beast-logo {
+  width: 250px;
+  height: auto;
+  position: absolute;
+  left: 0;
+  transform: translateY(-60%);
+  rotate: -35deg;
+}
+.Robux-Icon {
+  width: 150px;
+  height: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transform: translateY(50%);
+  rotate: -35deg;
+}
+@keyframes cursor { 50% { border-color: transparent; } }
+@keyframes typing { from { width: 0; } }
+.reveal-anim {
+  display: inline-block;
+  overflow: hidden;
+  white-space: nowrap;
+  border-right: 2px solid #fff;
+  width: 0;
+  opacity: 0;
+  animation-play-state: paused;
+}
+
+body.loaded .reveal-anim {
+  opacity: 1;
+  animation: typing 2s, infinite alternate, cursor 0.7s step-end infinite;
+  animation-play-state: running;
+}
+
+/* === Holiday Divider === */
+.christmas-divider {
+  position: relative;
+  height: 120px;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+
+.garland {
+  position: relative;
+  width: 80%;
+  height: 8px;
+  background: linear-gradient(90deg, #be2586, #622bc1, #00bfdd);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.light {
+  border-radius: 50%;
+  animation: blink 1.5s infinite alternate;
+}
+
+.light.small { width: 10px; height: 10px; }
+.light.medium { width: 14px; height: 14px; }
+.light.large { width: 18px; height: 18px; }
+
+.light.blue { background: #06a5fe; }
+.light.pink { background: #ff1fdd; }
+.light.purple { background: #c62bff; }
+
+@keyframes blink {
+  0% { opacity: 0.3;}
+  50% { opacity: 1;}
+  100% { opacity: 0.3;}
+}
+
+
+
+
+
+
+
+
+
+.games {
+  padding-top: 20px;
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .game-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
+  }
+
+  .game-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 130px;
+    height: 130px;
+    border-radius: 50px;
+    border: 4px solid #790046;
+    cursor: pointer;
+    position: relative;
+    background: linear-gradient(145deg, #ff06b4, #020a1b);
+    box-shadow:
+      inset 0 0 0 2px rgba(255, 0, 127, 0.5),
+      0 10px 20px rgba(0, 0, 0, 0.5);
+    transition: all 0.3s ease;
+    overflow: hidden;
+
+    h3 {
+      margin: 5px;
+      z-index: 1;
+    }
+
+    span {
+      margin: 10px;
+      text-align: center;
+      display: flex;
+    }
+  }
+
+  .game-card::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    border-radius: 52px;
+    background: linear-gradient(190deg, #ff0084, #121625);
+    opacity: 0;
+    z-index: 0;
+    transition: opacity 0.3s ease;
+    filter: blur(10px);
+  }
+
+  .game-card:hover {
+    transform: translateY(-8px) scale(1.05);
+    border-color: #ff2ea5;
+    box-shadow:
+      0 12px 24px rgba(255, 0, 127, 0.4),
+      0 0 20px rgba(255, 0, 127, 0.3),
+      inset 0 0 5px rgba(255, 255, 255, 0.1);
+
+    &::before {
+      opacity: 1;
+    }
+  }
+
+}
+
+
+/* === SHOP === */
+.shop {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  h2 {
+    margin-bottom: 20px;
+  }
+
+  /* Контейнер для карток */
+  .cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+  }
+}
+
+.gift-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: linear-gradient(145deg, #312064, #0e0d11);
+  width: 200px;
+  height: 150px;
+  border-radius: 22px;
+  padding: 24px;
+  border: 4px solid #2e0f51;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.35s ease;
+  box-shadow:
+    inset 0 0 8px rgba(255, 0, 128, 0.05),
+    0 2px 4px rgba(0, 0, 0, 0.4);
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 80% 20%, rgb(255 0 205 / 15%), transparent 50%);
+    z-index: 0;
+    transition: opacity 0.4s ease;
+    opacity: 0;
+  }
+
+  h1, h3 {
+    position: relative;
+    margin: 0;
+    color: #ffffff;
+    font-family: 'Rubik', sans-serif;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    z-index: 1;
+  }
+
+  button {
+    margin-top: 16px;
+    background: linear-gradient(135deg, #3d00a3, #a6006f);
+    color: #fff;
+    padding: 12px 24px;
+    font-size: 15px;
+    border-radius: 16px;
+    border: none;
+    font-family: 'Rubik', sans-serif;
+    cursor: pointer;
+    transition: all 0.25s ease;
+    z-index: 1;
+  }
+
+  &:hover {
+    transform: translateY(-6px) scale(1.015) rotate(1deg);
+    border-color: rgb(178 0 255 / 30%);
+
+    button {
+      background: linear-gradient(135deg, #7b2ff7, #f107a3);
+      transform: scale(1.05);
+      box-shadow: 0 0 12px rgba(255, 0, 128, 0.5);
+    }
+
+    &::before {
+      opacity: 1;
+    }
+  }
+}
+
+/* --- Секретна картка --- */
+.special {
+  display: none;
+}
+
+
+
+.nikname {
+  background: linear-gradient(145deg, #5e2572, #1b0101);
+  max-width: 250px;
+
+  position: absolute;
+  bottom: 15px;
+  left: 15px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  gap: 15px;
+  font-size: 17px;
+  padding: 10px;
+  border: 4px solid #b0085f;
+  border-radius: 40px;
+
+
+
+  img {
+    width: 100px;
+    border-radius: 50px;
+  }
+
+  .inf-wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .valuta-wrapper {
+    display: flex;
+  }
+
+  .valuta {
+    width: 20px;
+  }
+}
+
+.code {
+  button {
+    padding: 20px;
+    border-radius: 50px;
+    background-color: #2e2e2e;
+    position: absolute;
+    right: 15px;
+    bottom: 15px;
+    border: 5px solid #1f1f1f;
+    cursor: pointer;
+    color: #f2f2f2;
+    font-family: 'Rubik', sans-serif;
+    font-size: 17px;
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* === CLICKER MODAL === */
+.clicker-modal {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(15, 15, 15, 0.95);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.clicker-modal.active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mdl-clicker {
+  align-items: center;
+  background: linear-gradient(-90deg, #2e2e2e, #717171);
+  padding: 30px;
+  border-radius: 25px;
+  text-align: center;
+  color: white;
+  max-width: 800px;
+  width: 90%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.mdl-clicker h2 {
+  margin-bottom: 15px;
+}
+
+.close-clicker {
+  border: none;
+  background-color: #00cfff;
+  color: #fff;
+  font-size: 16px;
+  padding: 12px 25px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.close-clicker:hover {
+  transform: scale(1.05) rotate(3deg);
+  box-shadow: 0 5px 15px #0091ff;
+}
+
+/* Ігрове поле */
+.game-area {
+  align-items: center;
+  flex: 1;
+  background: #111;
+  border: 2px solid #ff007f;
+  border-radius: 20px;
+  position: relative;
+  overflow: hidden;
+  margin: 10px 0;
+}
+
+/* Клікабельний об’єкт */
+.click-object {
+  width: 70px;
+  height: 70px;
+  position: absolute;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-weight: bold;
+  user-select: none;
+  transition: transform 0.2s ease;
+}
+
+.click-object:hover {
+  transform: scale(1.1);
+}
+
+
+
+
+
+
+
+/* Загальні стилі модалок */
+.rules-modal, .clicker-modal {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(15, 15, 15, 0.9);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+.rules-modal.active, .clicker-modal.active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.modal {
+  align-items: center;
+  background: #222;
+  color: #fff;
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 500px;
+}
+
+/* Кнопки */
+.rules-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}
+button {
+  background: #ff007f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+button:hover {
+  transform: scale(1.05);
+}
+
+
+.result-modal {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: rgba(0,0,0,0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.result-modal.active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.mdl-result {
+  background: linear-gradient(135deg, #da00ff, #0095ff);
+  padding: 40px;
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+}
+
+.mdl-result button {
+  margin-top: 20px;
+  padding: 15px 25px;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  background: #fff;
+  color: #000;
+  font-weight: bold;
+}
+
+.mdl-clicker .timer {
+  color: white;
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.click-object {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.clicker-modal,
+.rules-modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.clicker-modal.active,
+.rules-modal.active {
+  display: flex;
+}
+
+.mdl-clicker {
+  background: #222;
+  color: white;
+  padding: 20px;
+  border-radius: 12px;
+  width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+#gameArea {
+  position: relative;
+  width: 100%;
+  height: 300px;
+  margin-top: 20px;
+  background: #333;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.click-object {
+  position: absolute;
+  font-size: 40px;
+  cursor: pointer;
+  user-select: none;
+  /* background-color: #00a8ff; */
+}
+
+.click-object img {
+  /* width: 100%;
+  height: 100%; */
+  object-fit: contain;
+  pointer-events: none;
+  user-select: none;
+}
+
+
+.timer {
+  font-size: 20px;
+  margin-bottom: 10px;
+}
+
+
+
+
+
+/* === MEMOROLOGIA === */
+
+/* Спільне для модалок */
+.rules-modal,
+.clicker-modal,
+.memory-modal {
+  display: none; /* спочатку приховані */
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: #222;
+  padding: 20px;
+  border-radius: 12px;
+  color: white;
+  text-align: center;
+  max-width: 400px;
+}
+
+/* Меморіум поле */
+.memory-area {
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  grid-gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.memory-area .card {
+  width: 70px;
+  height: 70px;
+  background: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  user-select: none;
+  transition: background 0.3s;
+}
+
+.memory-area .card:hover {
+  background: #666;
+}
+
+.memory-area .card.matched {
+  background: #2ecc71;
+  color: white;
+  cursor: default;
+}
+
+/* Меморіум модалка */
+.memory-modal {
+  display: none; /* спочатку прихована */
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.memory-modal.active {
+  display: flex;
+  opacity: 1;
+}
+
+/* Ігрове поле */
+.memory-area {
+  display: grid;
+  grid-template-columns: repeat(4, 70px);
+  grid-gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+  width: 100%;       /* обов'язково */
+  max-width: 320px;  /* для 4 карток у ряд */
+}
+
+/* Картки */
+.memory-area .card {
+  width: 70px;
+  height: 70px;
+  background: #444;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: white;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* === CODE MODAL === */
+
+/* Центрування модалки */
+.code-modal {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-20px);
+  transition: 0.3s ease;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.code-modal.active {
+  visibility: visible;
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Вікно */
+.modal {
+  background: #262626;
+  padding: 35px 30px 30px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 380px;
+  position: relative;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+/* Закриття */
+.close-code {
+  position: absolute;
+  top: 12px;
+  right: 14px;
+  font-size: 22px;
+  border: none;
+  background: none;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.close-code:hover {
+  color: #fff;
+}
+
+/* Заголовок */
+.modal h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #fff;
+}
+
+.register-sec {
+  position: relative;
+  width: 100%;
+}
+
+/* ІНПУТ */
+.register-sec input {
+  width: 100%;
+  padding: 14px 12px;
+  font-size: 16px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background: #1a1a1a;
+  color: #fff;
+  outline: none;
+  box-sizing: border-box;
+}
+
+/* ПЛЕЙСХОЛДЕР */
+.placeholder {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #888;
+  font-size: 14px;
+  pointer-events: none;
+  transition: all 0.2s ease;
+  padding: 0 4px;
+  line-height: 1;
+}
+
+/* Коли фокус або є значення — рухаємо */
+.register-sec input:focus + .placeholder,
+.register-sec input:valid + .placeholder {
+  top: -8px;
+  font-size: 14px;
+  color: #fff;
+}
+
+
+.close-code {
+  position: absolute;
+  padding: 5px 10px;
+  border-radius: 50%;
+  top: 12px;
+  right: 14px;
+  font-size: 22px;
+  border: none;
+  background: none;
+  color: #aaa;
+  cursor: pointer;
+  transition: color 0.2s ease, transform 0.3s ease;
+}
+
+.close-code:hover {
+  color: #fff;
+  transform: rotate(90deg); /* або scale(1.2) якщо не хочеш поворот */
+}
+
+
+/* КНОПКА АКТИВАЦІЇ */
+.ready-code {
+  position: relative;
+  background: linear-gradient(135deg, #da00ff, #2196f3);
+  border: none;
+  color: white;
+  padding: 14px 32px;
+  width: 100%;
+  border-radius: 10px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+}
+
+
+
+.ready-code::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -25%;
+  width: 150%;
+  height: 200%;
+  background: rgba(255, 255, 255, 0.08);
+  transform: rotate(45deg);
+  transition: all 0.5s ease;
+  z-index: 0;
+}
+
+.ready-code:hover::before {
+  top: -20%;
+  left: -20%;
+  transform: rotate(45deg) scale(1.2);
+}
+
+.ready-code:hover {
+  background: linear-gradient(135deg, #3ea2ff, #7500e0);
+  box-shadow: 0 6px 18px rgba(0, 123, 255, 0.4);
+  transform: translateY(-2px);
+}
+
+.ready-code:active {
+  transform: scale(0.96);
+  box-shadow: 0 2px 6px rgba(0, 123, 255, 0.3);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Казино */
+.casino-modal {
+  display: none; /* спочатку приховане */
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.7);
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
+}
+
+.casino-content {
+  background: linear-gradient(145deg, #ff06b4, #020a1b);
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+  color: #fff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.6);
+}
+
+.slot-machine {
+  display: flex;
+  justify-content: center;
+  margin: 20px 0;
+  gap: 10px;
+}
+
+.slot {
+  font-size: 40px;
+  width: 60px;
+  height: 60px;
+  background: #121625;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: inset 0 0 10px rgba(255,255,255,0.2);
+}
+
+#spinBtn, #closeCasino {
+  margin-top: 10px;
+  padding: 10px 20px;
+  border-radius: 12px;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  background: #ff0084;
+  color: #fff;
+  transition: 0.3s;
+}
+
+#spinBtn:hover, #closeCasino:hover {
+  background: #ff2ea5;
+}
+
+
+/* === SOCIALS === */
+.soc-links {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  padding: 16px;
+  border-radius: 35px;
+  background: linear-gradient(145deg, #5e2572, #1b0101);
+  border: 4px solid #b0085f;
+}
+
+.socials-container {
+  display: flex;
+  gap: 20px;
+}
+
+.socials-container a{
+  background-color: #ffb8d9;
+  padding: 1em;
+  border-radius: 50%;
+  height: 64px;
+  width: 64px;
+  box-sizing: border-box;
+  flex-shrink: 0;
+
+  display: grid;
+  place-items: center;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+}
+
+.socials-container a::before{
+  content: attr(data-social);
+  position: absolute;
+  background-color: var(--accent-color);
+  color: white;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  border-radius: 100px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.5);
+  transform: translateY(-30px) rotate(25deg);
+  opacity: 0;
+  transition: 200ms cubic-bezier(.42, 0, .44, 1.68);
+}
+
+.socials-container a svg{
+  height: 32px;
+}
+
+.socials-container a:hover{
+  background-color: var(--accent-color);
+  fill: white;
+}
+
+.socials-container a::after{
+  content: '';
+  position: absolute;
+  height: 0;
+  width: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 10px solid var(--accent-color);
+  transform: translateY(0) rotate(25px);
+  opacity: 0;
+  transition: 200ms cubic-bezier(.42, 0, .44, 1.68);
+}
+
+.socials-container a:hover::before{
+  transform: translateY(-65px) rotate(0);
+  opacity: 1;
+}
+
+.socials-container a:hover::after{
+  transform: translateY(-42px) rotate(0);
+  opacity: 1;
+}
+
+.socials-container a::before,
+.socials-container a::after {
+  pointer-events: none; /* не ловить ховер поки приховано */
+}
+
+.socials-container a:hover::before,
+.socials-container a:hover::after {
+  pointer-events: auto; /* вмикається тільки коли видно */
+}
+
+
+
+
+
+
+
+
+
+/* === АДАПТИВНІСТЬ === */
+
+/* Планшети (768px і менше) */
+@media (max-width: 800px) {
+  header {
+    padding: 20px 10px;
+  }
+
+  .site-title {
+    font-size: 2em;
+  }
+
+  .slogan {
+    font-size: 1em;
+    gap: 5px;
+  }
+
+  .games .game-wrapper {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    justify-content: center;
+  }
+
+  .game-card {
+    width: 100px;
+    height: 100px;
+    border-radius: 25px;
+  }
+
+  .shop .cards {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .gift-card {
+    width: 180px;
+    height: 140px;
+    padding: 16px;
+  }
+
+  .nikname {
+    max-width: 200px;
+    bottom: 10px;
+    left: 10px;
+    img {
+      width: 70px;
+    }
+  }
+
+  .code button {
+    padding: 16px;
+    font-size: 15px;
+  }
+
+  /* Модалки */
+  .mdl-clicker, .mdl-memory, .modal, .casino-content, .code-modal {
+    width: 90%;
+    max-width: 350px;
+    padding: 20px;
+  }
+
+  .memory-area {
+    grid-template-columns: repeat(4, 80px);
+    max-width: 350px;
+  }
+
+  #gameArea {
+    height: 200px;
+  }
+}
+
+/* Мобільні (480px і менше) */
+@media (max-width: 480px) {
+  .site-title {
+    font-size: 1.5em;
+  }
+
+  .Beast-logo {
+    display: none;
+  }
+
+  .Robux-Icon {
+    display: none;
+  }
+
+  .slogan {
+    font-size: 0.9em;
+  }
+
+  .games .game-wrapper {
+    gap: 10px;
+  }
+
+  .game-card {
+    width: 80px;
+    height: 80px;
+  }
+
+  .gift-card {
+    width: 160px;
+    height: 120px;
+    padding: 12px;
+  }
+
+  .nikname {
+    max-width: 160px;
+    img {
+      width: 60px;
+    }
+    font-size: 14px;
+  }
+
+  .code button {
+    padding: 14px;
+    font-size: 14px;
+  }
+
+  #gameArea {
+    height: 150px;
+  }
+
+  .mdl-clicker, .mdl-memory, .modal, .casino-content, .code-modal {
+    width: 95%;
+    max-width: 300px;
+    padding: 15px;
+  }
+  
+}
+
+
+@media (max-width: 600px) {
+  /* Профіль зверху секції ігор */
+  .nikname {
+    position: relative; /* прибираємо абсолютне позиціювання */
+    left: 50%;          /* центр по горизонталі */
+    transform: translateX(-50%);
+    bottom: 0;
+    margin: 0 0 15px 0;
+    max-width: 250px; /* фіксована ширина, як на десктопі */
+    display: flex;
+    justify-content: space-around;
+
+    flex-direction: column;
+    align-items: center;
+    margin-top: 35px;
+  }
+
+  /* Секція ігор під профілем */
+  .games {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+  }
+
+  /* Кнопка з кодами під магазином */
+  .shop + .code {
+    position: relative;
+    margin-top: 15px;
+    display: flex;
+    justify-content: center;
+  }
+
+  .code button {
+    width: 90%;
+    max-width: 300px;
+    font-size: 16px;
+    padding: 12px;
+  }
+
+  /* Зменшення карток в іграх та магазині */
+  .game-card {
+    width: 100px;
+    height: 100px;
+  }
+
+  .gift-card {
+    width: 180px;
+    height: 140px;
+  }
+
+  /* Підлаштування memory-area */
+  .memory-area {
+    grid-template-columns: repeat(2, 60px);
+    max-width: 140px;
+  }
+
+
+  /* Кнопка з кодами під магазином */
+  .shop + .code {
+    position: relative;
+    display: flex;
+    justify-content: center;
+  }
+
+  .code button {
+    width: auto;       /* не тягнемо на 90% */
+    min-width: 150px;  /* мінімальна ширина */
+    max-width: 220px;  /* максимум */
+    font-size: 16px;
+    padding: 12px 24px;
+    position: relative;
+    right: 0;
+    bottom: 0;
+  }
+
+  .memory-area {
+    grid-template-columns: repeat(4, 60px);
+    grid-gap: 5px;
+    max-width: 250px;
+  }
+
+  .memory-area .card {
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+  }
+
+  .mdl-memory {
+    width: 95%;
+  }
+}
